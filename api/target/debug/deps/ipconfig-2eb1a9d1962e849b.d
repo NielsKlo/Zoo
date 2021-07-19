@@ -1,0 +1,12 @@
+C:\Users\Niels\Desktop\nklootwijk_zoo\api\target\debug\deps\ipconfig-2eb1a9d1962e849b.rmeta: C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\ipconfig-0.2.2\src\lib.rs C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\ipconfig-0.2.2\src\adapter.rs C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\ipconfig-0.2.2\src\bindings\mod.rs C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\ipconfig-0.2.2\src\bindings\win64.rs C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\ipconfig-0.2.2\src\computer.rs C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\ipconfig-0.2.2\src\error.rs
+
+C:\Users\Niels\Desktop\nklootwijk_zoo\api\target\debug\deps\libipconfig-2eb1a9d1962e849b.rlib: C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\ipconfig-0.2.2\src\lib.rs C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\ipconfig-0.2.2\src\adapter.rs C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\ipconfig-0.2.2\src\bindings\mod.rs C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\ipconfig-0.2.2\src\bindings\win64.rs C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\ipconfig-0.2.2\src\computer.rs C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\ipconfig-0.2.2\src\error.rs
+
+C:\Users\Niels\Desktop\nklootwijk_zoo\api\target\debug\deps\ipconfig-2eb1a9d1962e849b.d: C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\ipconfig-0.2.2\src\lib.rs C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\ipconfig-0.2.2\src\adapter.rs C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\ipconfig-0.2.2\src\bindings\mod.rs C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\ipconfig-0.2.2\src\bindings\win64.rs C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\ipconfig-0.2.2\src\computer.rs C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\ipconfig-0.2.2\src\error.rs
+
+C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\ipconfig-0.2.2\src\lib.rs:
+C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\ipconfig-0.2.2\src\adapter.rs:
+C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\ipconfig-0.2.2\src\bindings\mod.rs:
+C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\ipconfig-0.2.2\src\bindings\win64.rs:
+C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\ipconfig-0.2.2\src\computer.rs:
+C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\ipconfig-0.2.2\src\error.rs:

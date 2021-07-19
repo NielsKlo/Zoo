@@ -1,0 +1,12 @@
+C:\Users\Niels\Desktop\nklootwijk_zoo\api\target\debug\deps\actix_router-db605294a9c09241.rmeta: C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\actix-router-0.2.7\src/lib.rs C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\actix-router-0.2.7\src\de.rs C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\actix-router-0.2.7\src\path.rs C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\actix-router-0.2.7\src\resource.rs C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\actix-router-0.2.7\src\router.rs C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\actix-router-0.2.7\src\url.rs
+
+C:\Users\Niels\Desktop\nklootwijk_zoo\api\target\debug\deps\libactix_router-db605294a9c09241.rlib: C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\actix-router-0.2.7\src/lib.rs C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\actix-router-0.2.7\src\de.rs C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\actix-router-0.2.7\src\path.rs C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\actix-router-0.2.7\src\resource.rs C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\actix-router-0.2.7\src\router.rs C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\actix-router-0.2.7\src\url.rs
+
+C:\Users\Niels\Desktop\nklootwijk_zoo\api\target\debug\deps\actix_router-db605294a9c09241.d: C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\actix-router-0.2.7\src/lib.rs C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\actix-router-0.2.7\src\de.rs C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\actix-router-0.2.7\src\path.rs C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\actix-router-0.2.7\src\resource.rs C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\actix-router-0.2.7\src\router.rs C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\actix-router-0.2.7\src\url.rs
+
+C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\actix-router-0.2.7\src/lib.rs:
+C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\actix-router-0.2.7\src\de.rs:
+C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\actix-router-0.2.7\src\path.rs:
+C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\actix-router-0.2.7\src\resource.rs:
+C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\actix-router-0.2.7\src\router.rs:
+C:\Users\Niels\.cargo\registry\src\github.com-1ecc6299db9ec823\actix-router-0.2.7\src\url.rs:

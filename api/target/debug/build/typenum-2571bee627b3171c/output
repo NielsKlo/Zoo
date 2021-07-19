@@ -1,0 +1,2 @@
+cargo:rustc-env=TYPENUM_BUILD_CONSTS=C:\Users\Niels\Desktop\nklootwijk_zoo\api\target\debug\build\typenum-2571bee627b3171c\out\consts.rs
+cargo:rustc-env=TYPENUM_BUILD_OP=C:\Users\Niels\Desktop\nklootwijk_zoo\api\target\debug\build\typenum-2571bee627b3171c\out\op.rs
