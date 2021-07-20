@@ -2,10 +2,12 @@ use actix_web::{HttpServer, HttpResponse, App, Responder, get};
 use std::io;
 use domain;
 use domain::{Animal, GameState};
+use database;
 extern crate serde_json;
 
 #[actix_web::main]
 async fn main() -> io::Result<()>{
+    database::get_animal();
 
     println!("Starting server at http://127.0.0.1:8080/");
 
@@ -20,6 +22,7 @@ async fn main() -> io::Result<()>{
 
 #[get("/animal")]
 async fn get_animal() -> impl Responder {
+    database::get_animal();
     let animal = Animal { species: "Penguin".to_string(), age: 10, hunger: 50};
     let game_state = GameState {animal};
     let message = serde_json::to_string(&game_state).unwrap();
