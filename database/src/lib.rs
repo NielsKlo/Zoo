@@ -2,9 +2,6 @@ pub mod models;
 
 use mongodb::sync::{Collection, Client};
 use crate::models::game_state::GameState;
-use mongodb::options::UpdateModifications::Document;
-use mongodb::bson;
-use mongodb::bson::doc;
 
 extern crate serde_json;
 
@@ -28,4 +25,16 @@ pub fn get_animal() -> String {
 pub fn save_animal(game_state: GameState) {
     let collection = get_collection();
     collection.insert_one(game_state, None).expect("Couldn't insert game state into database.");
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn get_collection_returns_the_correct_collection() {
+        let collection = get_collection();
+        let name = collection.name();
+        assert_eq!(name, "Animals");
+    }
 }

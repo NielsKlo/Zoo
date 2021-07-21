@@ -2,13 +2,11 @@ use actix_web::{HttpServer, HttpResponse, web, App, Responder, get, post};
 use std::io;
 use database;
 use database::models::game_state::GameState as DBGameState;
-use domain::GameState;
 
 extern crate serde_json;
 
 #[actix_web::main]
 async fn main() -> io::Result<()>{
-
     println!("Starting server at http://127.0.0.1:8080/");
 
     HttpServer::new(|| {

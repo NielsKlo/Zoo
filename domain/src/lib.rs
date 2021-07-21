@@ -11,3 +11,20 @@ pub struct Animal {
     pub age: u32,
     pub hunger: u32
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn can_make_an_animal() {
+        let animal = Animal{
+            species: "tiger".to_string(),
+            age: 5,
+            hunger: 20
+        };
+        assert_eq!(animal.species, String::from("tiger"));
+        assert_eq!(animal.age, 5);
+        assert_eq!(animal.hunger, 20);
+    }
+}
