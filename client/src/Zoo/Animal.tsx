@@ -1,6 +1,6 @@
 import React from "react";
-import { Animal } from "../gameState";
-import { GameState } from "../gameState";
+import type { Animal } from "../gameState";
+import type { GameState } from "../gameState";
 
 type AnimalProps = {
     gameState: GameState;

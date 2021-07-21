@@ -13,7 +13,6 @@ export function StartGame({ setGameState}: StartGameProps) {
             const response = await fetch('/zoo/animal');
             if(response.ok){
                 const message = await response.json();
-                await console.log(message);
                 await setGameState(message);
             } else {
                 console.error(response.statusText);
