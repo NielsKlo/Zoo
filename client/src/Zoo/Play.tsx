@@ -10,15 +10,13 @@ type PlayProps = {
 export function Play({ gameState, setGameState}: PlayProps) {
     async function saveAnimal(){
         try {
-            const response = await fetch('zoo/save_animal', {
+            const response = await fetch('/zoo/save_animal', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
-                    'Content-type': 'application/json'
+                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    GameState: gameState
-                })
+                body: JSON.stringify(gameState)
             });
         } catch (error) {
             console.error(error.toString());

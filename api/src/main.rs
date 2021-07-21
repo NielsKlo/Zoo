@@ -1,6 +1,7 @@
 use actix_web::{HttpServer, HttpResponse, web, App, Responder, get, post};
 use std::io;
 use database;
+use database::models::game_state::GameState as DBGameState;
 use domain::GameState;
 
 extern crate serde_json;
@@ -28,10 +29,9 @@ async fn get_animal() -> impl Responder {
 }
 
 #[post("/save_animal")]
-async fn save_animal(json: web::Json<GameState>) -> impl Responder {
+async fn save_animal(json: web::Json<DBGameState>) -> impl Responder {
     let game_state = json.into_inner();
-    let actual_json = serde_json::to_string(&game_state).expect("Could not get the json");
-    println!("{}", actual_json);
+    database::save_animal(game_state);
 
-    HttpResponse::Ok().json(game_state)
+    HttpResponse::Ok()
 }

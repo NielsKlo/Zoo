@@ -1,8 +1,11 @@
-mod models;
+pub mod models;
 
 use mongodb::sync::{Collection, Client};
-use mongodb::bson::doc;
 use crate::models::game_state::GameState;
+use mongodb::options::UpdateModifications::Document;
+use mongodb::bson;
+use mongodb::bson::doc;
+
 extern crate serde_json;
 
 fn get_collection() -> Collection<GameState> {
@@ -22,8 +25,7 @@ pub fn get_animal() -> String {
     serde_json::to_string(&game_state).unwrap()
 }
 
-pub fn save_animal(game_state_json: String) {
-    let game_state: GameState = serde_json::from_str(&game_state_json).unwrap();
+pub fn save_animal(game_state: GameState) {
     let collection = get_collection();
-    collection.find_one_and_replace(doc! {"species": "penguin"}, game_state, None).unwrap();
+    collection.insert_one(game_state, None).expect("Couldn't insert game state into database.");
 }
