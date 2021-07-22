@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import type { Animal } from "../gameState";
 import type { GameState } from "../gameState";
 
@@ -8,6 +8,8 @@ type AnimalProps = {
 }
 
 export function Animal({gameState, setGameState}: AnimalProps) {
+    const [animalState, setAnimalState] = useState<GameState>(gameState);
+
     async function feedAnimal(){
         try{
             const response = await fetch('/zoo/feed_animal', {
