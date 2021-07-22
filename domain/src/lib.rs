@@ -1,11 +1,23 @@
 #[macro_use] extern crate serde_derive;
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct GameState {
     pub animal: Animal
 }
 
-#[derive(Serialize, Deserialize)]
+impl GameState {
+    pub fn tick_forward(&mut self) {
+        let hunger = self.animal.hunger;
+        self.animal.hunger = hunger - 1;
+    }
+
+    pub fn feed_animal(&mut self) {
+        let hunger = self.animal.hunger;
+        self.animal.hunger = hunger + 10;
+    }
+}
+
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Animal {
     pub species: String,
     pub age: u32,
