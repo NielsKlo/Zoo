@@ -8,7 +8,6 @@ type AnimalProps = {
 }
 
 export function Animal({gameState, setGameState}: AnimalProps) {
-    const [animalState, setAnimalState] = useState<GameState>(gameState);
 
     async function feedAnimal(){
         try{

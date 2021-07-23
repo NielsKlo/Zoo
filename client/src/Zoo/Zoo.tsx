@@ -10,5 +10,8 @@ export function Zoo() {
         return <StartGame setGameState={setGameState} />
     }
 
-    return <Play gameState={gameState} setGameState={setGameState} />
+    return <div>
+            <Play gameState={gameState} setGameState={setGameState} />
+            <Timer setGameState={setGameState} />
+            </div>
 }

@@ -1,4 +1,5 @@
-use actix_web::{HttpServer, HttpResponse, web, App, Responder, get, post};
+use actix_web::{HttpServer, HttpResponse, App, Responder, get, post};
+use actix_session::{CookieSession, Session};
 use std::io;
 use database;
 use database::models::game_state::GameState as DBGameState;
@@ -12,6 +13,7 @@ async fn main() -> io::Result<()>{
 
     HttpServer::new(|| {
         App::new()
+            .wrap(CookieSession::signed(&[0; 32]).secure(false))
             .service(get_animal)
             .service(save_animal)
             .service(tick_forward)
@@ -23,34 +25,37 @@ async fn main() -> io::Result<()>{
 }
 
 #[get("/animal")]
-async fn get_animal() -> impl Responder {
+async fn get_animal(session: Session) -> impl Responder {
     let message = database::get_animal();
+    let deserialized: DomainGameState = serde_json::from_str(&message).unwrap();
+    session.set("animal", deserialized).expect("couldn't store game state in session");
 
     HttpResponse::Ok().content_type("application/json").body(message)
 }
 
-#[post("/save_animal")]
-async fn save_animal(json: web::Json<DBGameState>) -> impl Responder {
-    let game_state = json.into_inner();
+#[get("/save_animal")]
+async fn save_animal(session: Session) -> impl Responder {
+    let game_state = session.get::<DBGameState>("animal").unwrap().unwrap();
     database::save_animal(game_state);
 
     HttpResponse::Ok()
 }
 
-#[post("/tick_forward")]
-async fn tick_forward(json: web::Json<DomainGameState>) -> impl Responder {
-    let mut game_state = json.into_inner();
+#[get("/tick_forward")]
+async fn tick_forward(session: Session) -> impl Responder {
+    let mut game_state = session.get::<DomainGameState>("animal").unwrap().unwrap();
     game_state.tick_forward();
-    println!("{:?}", game_state);
+    session.set("animal", &game_state).expect("Couldn't replace game state");
     let message = serde_json::to_string(&game_state).unwrap();
 
     HttpResponse::Ok().content_type("application/json").body(message)
 }
 
 #[post("/feed_animal")]
-async fn feed_animal(json: web::Json<DomainGameState>) -> impl Responder {
-    let mut game_state = json.into_inner();
+async fn feed_animal(session: Session) -> impl Responder {
+    let mut game_state = session.get::<DomainGameState>("animal").unwrap().unwrap();
     game_state.feed_animal();
+    session.set("animal", &game_state).expect("Couldn't replace game state");
     let message = serde_json::to_string(&game_state).unwrap();
 
     HttpResponse::Ok().content_type("application/json").body(message)

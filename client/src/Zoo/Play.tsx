@@ -18,14 +18,7 @@ export function Play({ gameState, setGameState}: PlayProps) {
 
     async function tickForward() {
         try{
-            const response = await fetch('/zoo/tick_forward', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-type': 'application/json'
-                },
-                body: JSON.stringify(gameState)
-            });
+            const response = await fetch('/zoo/tick_forward');
 
             if(response.ok) {
                 const updatedGameState: GameState = await response.json();
@@ -41,14 +34,13 @@ export function Play({ gameState, setGameState}: PlayProps) {
 
     async function saveAnimal(){
         try {
-            const response = await fetch('/zoo/save_animal', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(gameState)
-            });
+            const response = await fetch('/zoo/save_animal');
+
+            if(response.ok){
+                console.log('Saved the animal!');
+            } else {
+                console.error(response.statusText);
+            }
         } catch (error) {
             console.error(error.toString());
         }
