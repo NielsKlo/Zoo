@@ -12,10 +12,10 @@ export function Play({ gameState, setGameState}: PlayProps) {
 
     async function saveAnimal(){
         try {
-            const response = await fetch('/zoo/save_animal');
+            const response = await fetch('/zoo/save_animals');
 
             if(response.ok){
-                console.log('Saved the animal!');
+                console.log('Saved the animals!');
             } else {
                 console.error(response.statusText);
             }

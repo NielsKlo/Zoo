@@ -6,11 +6,19 @@ type StartGameProps = {
 }
 
 export function StartGame({ setGameState}: StartGameProps) {
-    const [message, setMessage] = useState("");
+    const [playerName, setPlayerName] = useState("");
 
-    async function tryStartGame(e: React.MouseEvent) {
+    async function tryStartGame(e: React.FormEvent) {
+        e.preventDefault();
         try {
-            const response = await fetch('/zoo/animal');
+            const response = await fetch('/zoo/get_animals', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'text/plain'
+                },
+                body: playerName
+            });
             if(response.ok){
                 const message = await response.json();
                 await setGameState(message);
@@ -22,8 +30,14 @@ export function StartGame({ setGameState}: StartGameProps) {
         }
     }
     return (
-        <button className="startGameButton" onClick={(e) => tryStartGame(e)}>
-            Start
-        </button>
+        <form onSubmit={(e) => tryStartGame(e)}>
+            <input value={playerName}
+                placeholder="Niels"
+                onChange={(e) => setPlayerName(e.target.value)}
+            />
+            <button className="startGameButton" type="submit">
+                Play!
+            </button>
+        </form>
     )
 }

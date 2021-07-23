@@ -13,14 +13,15 @@ export function Animal({id, gameState, setGameState}: AnimalProps) {
     let animalImage = "images/" + gameState.animals[id].species + ".png";
 
     async function feedAnimal(){
+        let stringId = "" + id;
         try{
             const response = await fetch('/zoo/feed_animal', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
-                    'Content-type': 'text/plain'
+                    'Content-Type': 'text/plain'
                 },
-                body: id
+                body: stringId
             });
 
             if(response.ok) {

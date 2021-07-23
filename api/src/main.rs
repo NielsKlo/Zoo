@@ -15,8 +15,8 @@ async fn main() -> io::Result<()>{
     HttpServer::new(|| {
         App::new()
             .wrap(CookieSession::signed(&[0; 32]).secure(false))
-            .service(get_animal)
-            .service(save_animal)
+            .service(get_animals)
+            .service(save_animals)
             .service(tick_forward)
             .service(feed_animal)
     })
@@ -25,17 +25,17 @@ async fn main() -> io::Result<()>{
         .await
 }
 
-#[get("/animal")]
-async fn get_animal(session: Session) -> impl Responder {
-    let message = database::get_animal();
+#[post("/get_animals")]
+async fn get_animals(session: Session, name: String) -> impl Responder {
+    let message = database::get_animals(name);
     let deserialized: DomainGameState = serde_json::from_str(&message).unwrap();
     session.set("game", deserialized).expect("Couldn't store game state in session");
 
     HttpResponse::Ok().content_type("application/json").body(message)
 }
 
-#[get("/save_animal")]
-async fn save_animal(session: Session) -> impl Responder {
+#[get("/save_animals")]
+async fn save_animals(session: Session) -> impl Responder {
     let game_state = session.get::<DBGameState>("game").unwrap().unwrap();
     database::save_animal(game_state);
 
