@@ -3,11 +3,14 @@ import type { Animal } from "../gameState";
 import type { GameState } from "../gameState";
 
 type AnimalProps = {
+    id: number;
     gameState: GameState;
     setGameState(newGameState: GameState): void;
 }
 
-export function Animal({gameState, setGameState}: AnimalProps) {
+export function Animal({id, gameState, setGameState}: AnimalProps) {
+
+    let animalImage = "images/" + gameState.animals[id].species + ".png";
 
     async function feedAnimal(){
         try{
@@ -15,9 +18,9 @@ export function Animal({gameState, setGameState}: AnimalProps) {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
-                    'Content-type': 'application/json'
+                    'Content-type': 'text/plain'
                 },
-                body: JSON.stringify(gameState)
+                body: id
             });
 
             if(response.ok) {
@@ -34,11 +37,13 @@ export function Animal({gameState, setGameState}: AnimalProps) {
 
     return (
         <div>
-            Species: {gameState.animal.species}
-            <br></br>
-            Age: {gameState.animal.age}
-            <br></br>
-            Hunger: {gameState.animal.hunger}
+            <img src={animalImage} />
+            <div className="species">
+            Species: {gameState.animals[id].species}
+            </div>
+            <div className="hunger">
+            Hunger: {gameState.animals[id].hunger}
+            </div>
             <button className="feedButton" onClick={() => feedAnimal()}> Feed </button>
         </div>
     )

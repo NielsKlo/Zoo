@@ -1,0 +1,14 @@
+.species{
+    display: flex;
+    justify-content: center;
+}
+
+.hunger{
+    display: flex;
+    justify-content: center;
+}
+
+.feedButton{
+    display: flex;
+    justify-content: center;
+}

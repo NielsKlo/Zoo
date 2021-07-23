@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {Animal} from "./Animal";
 import type { GameState } from "../gameState";
+import "./Play.css";
 
 type PlayProps = {
     gameState: GameState;
@@ -8,29 +9,6 @@ type PlayProps = {
 }
 
 export function Play({ gameState, setGameState}: PlayProps) {
-
-    useEffect(() => {
-        var handle = setInterval(tickForward, 5000);
-        return () => {
-            clearInterval(handle);
-        }
-    });
-
-    async function tickForward() {
-        try{
-            const response = await fetch('/zoo/tick_forward');
-
-            if(response.ok) {
-                const updatedGameState: GameState = await response.json();
-                setGameState(updatedGameState);
-            } else {
-                console.error(response.statusText);
-            }
-
-        } catch (error){
-            console.error(error.toString());
-        }
-    }
 
     async function saveAnimal(){
         try {
@@ -48,7 +26,12 @@ export function Play({ gameState, setGameState}: PlayProps) {
 
     return (
         <div>
-            <Animal gameState={gameState} setGameState={setGameState}/>
+            <div className="animalClass">
+                {
+                gameState.animals.map((animal) => (
+                    <Animal id={animal.id} gameState={gameState} setGameState={setGameState} key={animal.id}/>
+                ))}
+            </div>
             <button className="saveButton" onClick={() => saveAnimal()}> Save </button>
         </div>
     )

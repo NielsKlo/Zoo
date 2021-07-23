@@ -4,5 +4,6 @@ use animal::Animal;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct GameState {
-    pub animal: Animal
+    pub player: String,
+    pub animals: Vec<Animal>
 }

@@ -4,6 +4,7 @@ use std::io;
 use database;
 use database::models::game_state::GameState as DBGameState;
 use domain::GameState as DomainGameState;
+use serde_json::from_str;
 
 extern crate serde_json;
 
@@ -28,14 +29,14 @@ async fn main() -> io::Result<()>{
 async fn get_animal(session: Session) -> impl Responder {
     let message = database::get_animal();
     let deserialized: DomainGameState = serde_json::from_str(&message).unwrap();
-    session.set("animal", deserialized).expect("couldn't store game state in session");
+    session.set("game", deserialized).expect("Couldn't store game state in session");
 
     HttpResponse::Ok().content_type("application/json").body(message)
 }
 
 #[get("/save_animal")]
 async fn save_animal(session: Session) -> impl Responder {
-    let game_state = session.get::<DBGameState>("animal").unwrap().unwrap();
+    let game_state = session.get::<DBGameState>("game").unwrap().unwrap();
     database::save_animal(game_state);
 
     HttpResponse::Ok()
@@ -43,19 +44,19 @@ async fn save_animal(session: Session) -> impl Responder {
 
 #[get("/tick_forward")]
 async fn tick_forward(session: Session) -> impl Responder {
-    let mut game_state = session.get::<DomainGameState>("animal").unwrap().unwrap();
+    let mut game_state = session.get::<DomainGameState>("game").unwrap().unwrap();
     game_state.tick_forward();
-    session.set("animal", &game_state).expect("Couldn't replace game state");
+    session.set("game", &game_state).expect("Couldn't replace game state");
     let message = serde_json::to_string(&game_state).unwrap();
 
     HttpResponse::Ok().content_type("application/json").body(message)
 }
 
 #[post("/feed_animal")]
-async fn feed_animal(session: Session) -> impl Responder {
-    let mut game_state = session.get::<DomainGameState>("animal").unwrap().unwrap();
-    game_state.feed_animal();
-    session.set("animal", &game_state).expect("Couldn't replace game state");
+async fn feed_animal(session: Session, id: String) -> impl Responder {
+    let mut game_state = session.get::<DomainGameState>("game").unwrap().unwrap();
+    game_state.feed_animal(from_str::<usize>(&id).unwrap());
+    session.set("game", &game_state).expect("Couldn't replace game state");
     let message = serde_json::to_string(&game_state).unwrap();
 
     HttpResponse::Ok().content_type("application/json").body(message)

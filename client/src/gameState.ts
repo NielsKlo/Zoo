@@ -1,9 +1,10 @@
 export interface GameState {
-    animal: Animal;
+    player: string;
+    animals: Animal[];
 }
 
 export interface Animal {
+    id: number;
     species: string;
-    age: number;
     hunger: number;
 }
