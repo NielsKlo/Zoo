@@ -7,6 +7,8 @@ import type { GameState } from "../gameState";
 export function Zoo() {
     const [ gameState, setGameState ] = useState<GameState | undefined>(undefined);
 
+    console.log("redrawing Zoo.txs");
+
     if (!gameState) {
         return <StartGame setGameState={setGameState} />
     }

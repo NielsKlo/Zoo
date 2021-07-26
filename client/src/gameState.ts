@@ -1,5 +1,6 @@
 export interface GameState {
     player: string;
+    score: number;
     animals: Animal[];
 }
 

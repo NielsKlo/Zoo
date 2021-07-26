@@ -1,14 +1,9 @@
-.species{
-    display: flex;
-    justify-content: center;
+img {
+    height: 70px;
+    width: 70px;
 }
 
-.hunger{
-    display: flex;
-    justify-content: center;
-}
-
-.feedButton{
-    display: flex;
-    justify-content: center;
+.animal {
+    border: 1px solid #ddd;
+    padding: 5px;
 }

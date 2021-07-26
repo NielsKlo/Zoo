@@ -1,8 +1,10 @@
 #[macro_use] extern crate serde_derive;
+use rand::Rng;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct GameState {
     pub player: String,
+    pub score: i32,
     pub animals: Vec<Animal>
 }
 
@@ -16,10 +18,56 @@ pub struct Animal {
 impl GameState {
     pub fn tick_forward(&mut self) {
         for i in 0..self.animals.len() {
-            if self.animals[i].hunger > 0 {
-                self.animals[i].hunger = self.animals[i].hunger - 1;
-            }
+            Self::progress_hunger(self, i);
+            Self::progress_score(self, i);
         }
+
+        if Self::deserves_new_animal(self){
+            Self::generate_random_animal(self);
+        }
+    }
+
+    fn progress_hunger(&mut self, i: usize){
+        if self.animals[i].hunger > 0 {
+            self.animals[i].hunger -= 1;
+        }
+    }
+
+    fn progress_score(&mut self, i: usize){
+        if self.animals[i].hunger >= 29 && self.animals[i].hunger <= 94 {
+            self.score += 1;
+        }
+    }
+
+    fn deserves_new_animal(&mut self) -> bool {
+        let animal_count = self.animals.len() as i32;
+
+        if animal_count >= 30 {
+            return false;
+        }
+
+        let leftover_score = get_leftover_score(self, animal_count);
+        return leftover_score >= animal_count * 30
+    }
+
+    fn get_leftover_score(&self, animal_count: i32) -> i32 {
+        let mut minimum_score = 0;
+        for i in 0..(animal_count) {
+            minimum_score += 30 * i;
+        }
+        self.score - minimum_score
+    }
+
+    fn generate_random_animal(&mut self){
+        let array: [&str; 10] = ["penguin", "elephant", "bat", "crocodile", "deer", "dolphin", "giraffe", "monkey", "otter", "tiger"];
+        let mut rng = rand::thread_rng();
+        let random_number = rng.gen_range(0..array.len());
+        let animal = Animal {
+            id: self.animals.len() as i32,
+            species: array[random_number].to_string(),
+            hunger: 50
+        };
+        self.animals.push(animal);
     }
 
     pub fn feed_animal(&mut self, id: usize) {
@@ -38,6 +86,7 @@ mod tests {
     fn get_game_state(hunger: i32) -> GameState {
         GameState{
             player: "niels".to_string(),
+            score: 0,
             animals: get_animal(hunger)
         }
     }

@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import type { Animal } from "../gameState";
 import type { GameState } from "../gameState";
+import './Animal.css';
 
 type AnimalProps = {
     id: number;
@@ -37,7 +38,7 @@ export function Animal({id, gameState, setGameState}: AnimalProps) {
     }
 
     return (
-        <div>
+        <div className="animal">
             <img src={animalImage} />
             <div className="species">
             Species: {gameState.animals[id].species}

@@ -26,6 +26,8 @@ export function Play({ gameState, setGameState}: PlayProps) {
 
     return (
         <div>
+            <p> Current player: {gameState.player} </p>
+            <p>  Score: {gameState.score} </p>
             <div className="animalClass">
                 {
                 gameState.animals.map((animal) => (

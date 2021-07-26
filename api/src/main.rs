@@ -47,8 +47,8 @@ async fn tick_forward(session: Session) -> impl Responder {
     let mut game_state = session.get::<DomainGameState>("game").unwrap().unwrap();
     game_state.tick_forward();
     session.set("game", &game_state).expect("Couldn't replace game state");
-    let message = serde_json::to_string(&game_state).unwrap();
 
+    let message = serde_json::to_string(&game_state).unwrap();
     HttpResponse::Ok().content_type("application/json").body(message)
 }
 
@@ -57,7 +57,7 @@ async fn feed_animal(session: Session, id: String) -> impl Responder {
     let mut game_state = session.get::<DomainGameState>("game").unwrap().unwrap();
     game_state.feed_animal(from_str::<usize>(&id).unwrap());
     session.set("game", &game_state).expect("Couldn't replace game state");
-    let message = serde_json::to_string(&game_state).unwrap();
 
+    let message = serde_json::to_string(&game_state).unwrap();
     HttpResponse::Ok().content_type("application/json").body(message)
 }

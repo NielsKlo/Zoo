@@ -1,5 +1,6 @@
 .animalClass{
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     background-color: #3ecded;
 }
