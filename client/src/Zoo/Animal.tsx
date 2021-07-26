@@ -10,8 +10,21 @@ type AnimalProps = {
 }
 
 export function Animal({id, gameState, setGameState}: AnimalProps) {
+    const animal: Animal = gameState.animals[id];
 
     let animalImage = "images/" + gameState.animals[id].species + ".png";
+
+    let background = getCurrentBackgroundColor();
+
+    function getCurrentBackgroundColor(){
+        if (animal.hunger <= 29 ){
+            return "red";
+        } else if (animal.hunger >= 96){
+            return "green";
+        } else {
+            return "lime";
+        }
+    }
 
     async function feedAnimal(){
         let stringId = "" + id;
@@ -38,12 +51,13 @@ export function Animal({id, gameState, setGameState}: AnimalProps) {
     }
 
     return (
-        <div className="animal">
+        <div className="animal"
+                style={{backgroundColor: background}}>
             <img src={animalImage} />
             <div className="species">
             Species: {gameState.animals[id].species}
             </div>
-            <div className="hunger">
+            <div>
             Hunger: {gameState.animals[id].hunger}
             </div>
             <button className="feedButton" onClick={() => feedAnimal()}> Feed </button>

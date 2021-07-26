@@ -12,7 +12,7 @@ export function Timer({setGameState}: TimerProps) {
         return () => {
             clearInterval(timer);
         }
-    });
+    }, []);
 
     async function tickForward() {
         try{

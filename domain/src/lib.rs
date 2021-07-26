@@ -1,5 +1,6 @@
 #[macro_use] extern crate serde_derive;
 use rand::Rng;
+pub mod names;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct GameState {
@@ -46,7 +47,7 @@ impl GameState {
             return false;
         }
 
-        let leftover_score = get_leftover_score(self, animal_count);
+        let leftover_score = Self::get_leftover_score(self, animal_count);
         return leftover_score >= animal_count * 30
     }
 
@@ -68,6 +69,10 @@ impl GameState {
             hunger: 50
         };
         self.animals.push(animal);
+    }
+
+    fn generate_random_name() -> String {
+        "".to_string()
     }
 
     pub fn feed_animal(&mut self, id: usize) {
