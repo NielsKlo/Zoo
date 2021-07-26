@@ -29,7 +29,7 @@ pub fn get_animals(name: String) -> String {
 }
 
 fn get_starting_state(collection: Collection<GameState>, name: String) -> GameState {
-    let option = collection.find_one(doc! {"player": "default"}, None)
+    let option = collection.find_one(doc! {"player": "default, dont save"}, None)
         .expect("Couldn't search for entries in the collection.");
     let mut game_state = option.expect("Couldn't find the default game state");
     game_state.player = name;

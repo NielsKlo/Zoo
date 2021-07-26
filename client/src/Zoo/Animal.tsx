@@ -54,8 +54,8 @@ export function Animal({id, gameState, setGameState}: AnimalProps) {
         <div className="animal"
                 style={{backgroundColor: background}}>
             <img src={animalImage} />
-            <div className="species">
-            Species: {gameState.animals[id].species}
+            <div>
+            Name: {gameState.animals[id].name}
             </div>
             <div>
             Hunger: {gameState.animals[id].hunger}

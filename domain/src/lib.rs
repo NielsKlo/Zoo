@@ -13,6 +13,7 @@ pub struct GameState {
 pub struct Animal {
     pub id: i32,
     pub species: String,
+    pub name: String,
     pub hunger: i32
 }
 
@@ -66,13 +67,10 @@ impl GameState {
         let animal = Animal {
             id: self.animals.len() as i32,
             species: array[random_number].to_string(),
+            name: names::get_random_name(),
             hunger: 50
         };
         self.animals.push(animal);
-    }
-
-    fn generate_random_name() -> String {
-        "".to_string()
     }
 
     pub fn feed_animal(&mut self, id: usize) {
@@ -91,7 +89,7 @@ mod tests {
     fn get_game_state(hunger: i32) -> GameState {
         GameState{
             player: "niels".to_string(),
-            score: 0,
+            score: 40,
             animals: get_animal(hunger)
         }
     }
@@ -100,6 +98,7 @@ mod tests {
         vec! [Animal {
             id: 0,
             species: "tiger".to_string(),
+            name: "Jacky".to_string(),
             hunger
         }]
     }
@@ -135,6 +134,20 @@ mod tests {
 
         assert_eq!(old_hunger, 0);
         assert_eq!(new_hunger, 0);
+    }
+
+    #[test]
+    fn tick_forward_adds_a_new_animal_when_score_is_high_enough() {
+        let mut game_state = get_game_state(0);
+
+        let starting_animal_count = game_state.animals.len();
+        game_state.tick_forward();
+        let intermediate_animal_count = game_state.animals.len();
+        game_state.tick_forward();
+        let ending_animal_count = game_state.animals.len();
+
+        assert_eq!(intermediate_animal_count, starting_animal_count + 1);
+        assert_eq!(ending_animal_count, intermediate_animal_count);
     }
 
     #[test]

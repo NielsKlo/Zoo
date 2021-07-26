@@ -4,5 +4,6 @@ use serde::{Deserialize, Serialize};
 pub struct Animal {
     pub id: i32,
     pub species: String,
+    pub name: String,
     pub hunger: i32
 }

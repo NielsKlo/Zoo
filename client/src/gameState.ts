@@ -7,5 +7,6 @@ export interface GameState {
 export interface Animal {
     id: number;
     species: string;
+    name: string;
     hunger: number;
 }
