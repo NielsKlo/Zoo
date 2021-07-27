@@ -25,7 +25,7 @@ impl GameState {
 
         if animals_died {
             Self::bury_dead_animals(self);
-            if Self::no_living_animals(self) {
+            if Self::no_animals_alive(self) {
                 Self::generate_random_animal(self);
             }
         } else {
@@ -34,7 +34,6 @@ impl GameState {
 
         if Self::deserves_new_animal(self){
             Self::generate_random_animal(self);
-            Self::reset_progress(self);
         }
     }
 
@@ -73,14 +72,14 @@ impl GameState {
         self.progress = 0;
     }
 
-    fn no_living_animals(&self) -> bool {
+    fn no_animals_alive(&self) -> bool {
         self.animals.len() == 0
     }
 
     fn make_progress(&mut self) {
         let new_progress = Self::get_new_progress(self);
         let multiplier = Self::get_progress_multiplier(self);
-        self.progress += new_progress * multiplier;
+        self.progress += ((new_progress as f32) * multiplier) as i32;
     }
 
     fn get_new_progress(&mut self) -> i32 {
@@ -103,8 +102,15 @@ impl GameState {
         }
     }
 
-    fn get_progress_multiplier(&self) -> i32 {
-        1 + self.level - (self.animals.len() as i32)
+    fn get_progress_multiplier(&self) -> f32 {
+        let difference = (self.level - (self.animals.len() as i32)) as f32;
+        let bonus;
+        if difference > 5.0 {
+            bonus = 1.0;
+        } else {
+            bonus = difference * 0.2;
+        }
+        1.0 + bonus
     }
 
     fn deserves_new_animal(&mut self) -> bool {
@@ -116,12 +122,13 @@ impl GameState {
         let mut rng = rand::thread_rng();
         let random_number = rng.gen_range(0..array.len());
         let animal = Animal {
-            id: self.animals.len() as i32,
+            id: (self.animals.len() + self.dead_animals.len()) as i32,
             species: array[random_number].to_string(),
             name: names::get_random_name(),
             hunger: 50
         };
         self.animals.push(animal);
+        Self::reset_progress(self);
     }
 
     fn reset_progress(&mut self) {
@@ -138,6 +145,14 @@ impl GameState {
         }
         self.animals[id].hunger = hunger;
     }
+
+    pub fn bulk_feed_animal(&mut self, id: usize) {
+        let mut hunger = self.animals[id].hunger + 50;
+        if hunger > 100 {
+            hunger = 100;
+        }
+        self.animals[id].hunger = hunger;
+    }
 }
 
 #[cfg(test)]
@@ -148,7 +163,7 @@ mod tests {
         GameState{
             player: "niels".to_string(),
             level: 1,
-            progress: 10000,
+            progress: 1000,
             animals: get_animals(hunger),
             dead_animals: vec![]
         }
@@ -199,6 +214,7 @@ mod tests {
     #[test]
     fn tick_forward_adds_a_new_animal_when_progress_is_high_enough() {
         let mut game_state = get_game_state(20);
+        game_state.progress = 10000;
 
         let starting_animal_count = game_state.animals.len();
         game_state.tick_forward();
@@ -234,6 +250,29 @@ mod tests {
     }
 
     #[test]
+    fn bulk_feed_animal_increases_hunger_by_fifty() {
+        let mut game_state = get_game_state(20);
+
+        let old_hunger = game_state.animals[0].hunger;
+        game_state.bulk_feed_animal(0);
+        let new_hunger = game_state.animals[0].hunger;
+
+        assert_eq!(new_hunger, old_hunger + 50);
+    }
+
+    #[test]
+    fn bulk_feed_animal_does_not_increase_hunger_over_hundred() {
+        let mut game_state = get_game_state(95);
+
+        let old_hunger = game_state.animals[0].hunger;
+        game_state.bulk_feed_animal(0);
+        let new_hunger = game_state.animals[0].hunger;
+
+        assert_eq!(old_hunger, 95);
+        assert_eq!(new_hunger, 100);
+    }
+
+    #[test]
     fn a_new_animal_gets_generated_when_there_are_no_more_living_animals() {
         let mut game_state = get_game_state(1);
 
@@ -242,5 +281,14 @@ mod tests {
         let new_animal_name = game_state.animals[0].name.clone();
 
         assert_ne!(new_animal_name, old_animal_name);
+    }
+
+    #[test]
+    fn progress_gets_set_to_zero_when_an_animal_dies() {
+        let mut game_state = get_game_state(1);
+
+        game_state.tick_forward();
+
+        assert_eq!(game_state.progress, 0);
     }
 }

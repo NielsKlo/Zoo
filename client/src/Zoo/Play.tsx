@@ -10,6 +10,13 @@ type PlayProps = {
 
 export function Play({ gameState, setGameState}: PlayProps) {
     const progress: number = Math.trunc(gameState.progress / 100);
+    let animalIndex = 0;
+
+    function getAnimalIndex() {
+        let oldIndex = animalIndex;
+        animalIndex += 1;
+        return oldIndex;
+    }
 
     async function saveAnimal(){
         try {
@@ -33,7 +40,7 @@ export function Play({ gameState, setGameState}: PlayProps) {
             <div className="animalClass">
                 {
                 gameState.animals.map((animal) => (
-                    <Animal id={animal.id} gameState={gameState} setGameState={setGameState} key={animal.id}/>
+                    <Animal id={getAnimalIndex()} gameState={gameState} setGameState={setGameState} key={animal.id}/>
                 ))}
             </div>
             <button className="saveButton" onClick={() => saveAnimal()}> Save </button>

@@ -10,9 +10,9 @@ type AnimalProps = {
 }
 
 export function Animal({id, gameState, setGameState}: AnimalProps) {
-    const animal: Animal = gameState.animals[id];
+    let animal: Animal = gameState.animals[id];
 
-    let animalImage = "images/" + gameState.animals[id].species + ".png";
+    let animalImage = "images/" + animal.species + ".png";
 
     let background = getCurrentBackgroundColor();
 
@@ -54,17 +54,42 @@ export function Animal({id, gameState, setGameState}: AnimalProps) {
         }
     }
 
+    async function bulkFeedAnimal(){
+        let stringId = "" + id;
+        try{
+            const response = await fetch('/zoo/bulk_feed_animal', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'text/plain'
+                },
+                body: stringId
+            });
+
+            if(response.ok) {
+                const updatedGameState: GameState = await response.json();
+                setGameState(updatedGameState);
+            } else {
+                console.error(response.statusText);
+            }
+
+        } catch (error){
+            console.error(error.toString());
+        }
+    }
+
     return (
         <div className="animal"
                 style={{backgroundColor: background}}>
             <img src={animalImage} />
             <div>
-            Name: {gameState.animals[id].name}
+            Name: {animal.name}
             </div>
             <div>
-            Hunger: {gameState.animals[id].hunger}
+            Hunger: {animal.hunger}
             </div>
             <button className="feedButton" onClick={() => feedAnimal()}> Feed </button>
+            <button className="bulkFeedButton" onClick={() => bulkFeedAnimal()}> Bulk Feed </button>
         </div>
     )
 }
