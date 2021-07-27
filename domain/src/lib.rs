@@ -25,6 +25,9 @@ impl GameState {
 
         if animals_died {
             Self::bury_dead_animals(self);
+            if Self::no_living_animals(self) {
+                Self::generate_random_animal(self);
+            }
         } else {
             Self::make_progress(self);
         }
@@ -68,6 +71,10 @@ impl GameState {
             }
         }
         self.progress = 0;
+    }
+
+    fn no_living_animals(&self) -> bool {
+        self.animals.len() == 0
     }
 
     fn make_progress(&mut self) {
@@ -224,5 +231,16 @@ mod tests {
 
         assert_eq!(old_hunger, 95);
         assert_eq!(new_hunger, 100);
+    }
+
+    #[test]
+    fn a_new_animal_gets_generated_when_there_are_no_more_living_animals() {
+        let mut game_state = get_game_state(1);
+
+        let old_animal_name = game_state.animals[0].name.clone();
+        game_state.tick_forward();
+        let new_animal_name = game_state.animals[0].name.clone();
+
+        assert_ne!(new_animal_name, old_animal_name);
     }
 }
