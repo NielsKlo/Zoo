@@ -1,7 +1,9 @@
 export interface GameState {
     player: string;
-    score: number;
+    level: number;
+    progress: number;
     animals: Animal[];
+    dead_animals: Animal[];
 }
 
 export interface Animal {

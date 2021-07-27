@@ -9,6 +9,7 @@ type PlayProps = {
 }
 
 export function Play({ gameState, setGameState}: PlayProps) {
+    const progress: number = Math.trunc(gameState.progress / 100);
 
     async function saveAnimal(){
         try {
@@ -27,7 +28,8 @@ export function Play({ gameState, setGameState}: PlayProps) {
     return (
         <div>
             <p> Current player: {gameState.player} </p>
-            <p>  Score: {gameState.score} </p>
+            <p> Level: {gameState.level} </p>
+            <p>  Progress: {progress} % </p>
             <div className="animalClass">
                 {
                 gameState.animals.map((animal) => (

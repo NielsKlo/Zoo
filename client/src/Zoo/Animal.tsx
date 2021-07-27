@@ -17,12 +17,16 @@ export function Animal({id, gameState, setGameState}: AnimalProps) {
     let background = getCurrentBackgroundColor();
 
     function getCurrentBackgroundColor(){
-        if (animal.hunger <= 29 ){
-            return "red";
-        } else if (animal.hunger >= 96){
+        if (animal.hunger >= 96){
             return "green";
-        } else {
+        } else if (animal.hunger >= 31) {
             return "lime";
+        } else if (animal.hunger >= 11) {
+            return "orange";
+        } else if (animal.hunger >= 1) {
+            return "red";
+        } else {
+            return "gray"
         }
     }
 

@@ -54,4 +54,12 @@ mod tests {
         let name = collection.name();
         assert_eq!(name, "Animals");
     }
+
+    #[test]
+    fn get_starting_state_returns_the_default_starting_document(){
+        let collection = get_collection();
+        let game_state = get_starting_state(collection, "test name".to_string());
+        let default_first_species = &game_state.animals[0].species;
+        assert_eq!(default_first_species, "penguin");
+    }
 }

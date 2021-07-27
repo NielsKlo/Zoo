@@ -5,8 +5,10 @@ pub mod names;
 #[derive(Serialize, Deserialize, Debug)]
 pub struct GameState {
     pub player: String,
-    pub score: i32,
-    pub animals: Vec<Animal>
+    pub level: i32,
+    pub progress: i32,
+    pub animals: Vec<Animal>,
+    pub dead_animals: Vec<Animal>
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -19,48 +21,90 @@ pub struct Animal {
 
 impl GameState {
     pub fn tick_forward(&mut self) {
-        for i in 0..self.animals.len() {
-            Self::progress_hunger(self, i);
-            Self::progress_score(self, i);
+        let animals_died = Self::age_animals(self);
+
+        if animals_died {
+            Self::bury_dead_animals(self);
+        } else {
+            Self::make_progress(self);
         }
 
         if Self::deserves_new_animal(self){
             Self::generate_random_animal(self);
+            Self::reset_progress(self);
         }
     }
 
-    fn progress_hunger(&mut self, i: usize){
+    fn age_animals(&mut self) -> bool {
+        for i in 0..self.animals.len() {
+            Self::tick_forward_hunger(self, i);
+            if self.animals[i].hunger == 0 {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    fn tick_forward_hunger(&mut self, i: usize){
         if self.animals[i].hunger > 0 {
             self.animals[i].hunger -= 1;
         }
     }
 
-    fn progress_score(&mut self, i: usize){
-        if self.animals[i].hunger >= 29 && self.animals[i].hunger <= 94 {
-            self.score += 1;
+    fn bury_dead_animals(&mut self){
+        let mut dead_animals_present = true;
+        while dead_animals_present {
+
+            dead_animals_present = false;
+
+            for i in 0..self.animals.len(){
+                if self.animals[i].hunger == 0 {
+
+                    let dead_animal = self.animals.remove(i);
+                    self.dead_animals.push(dead_animal);
+                    dead_animals_present = true;
+                    break;
+                }
+            }
         }
+        self.progress = 0;
+    }
+
+    fn make_progress(&mut self) {
+        let new_progress = Self::get_new_progress(self);
+        let multiplier = Self::get_progress_multiplier(self);
+        self.progress += new_progress * multiplier;
+    }
+
+    fn get_new_progress(&mut self) -> i32 {
+        let mut new_progress = 0;
+        for i in 0..self.animals.len() {
+            new_progress += Self::get_animal_progress(self.animals[i].hunger);
+        }
+        (new_progress * 40) / (self.animals.len() as i32)
+    }
+
+    fn get_animal_progress(hunger: i32) -> i32 {
+        if hunger >= 96 {
+            5
+        } else if hunger >= 31 {
+            10
+        } else if hunger >= 10 {
+            3
+        } else {
+            1
+        }
+    }
+
+    fn get_progress_multiplier(&self) -> i32 {
+        1 + self.level - (self.animals.len() as i32)
     }
 
     fn deserves_new_animal(&mut self) -> bool {
-        let animal_count = self.animals.len() as i32;
-
-        if animal_count >= 30 {
-            return false;
-        }
-
-        let leftover_score = Self::get_leftover_score(self, animal_count);
-        return leftover_score >= animal_count * 30
+        self.progress >= 10000
     }
 
-    fn get_leftover_score(&self, animal_count: i32) -> i32 {
-        let mut minimum_score = 0;
-        for i in 0..(animal_count) {
-            minimum_score += 30 * i;
-        }
-        self.score - minimum_score
-    }
-
-    fn generate_random_animal(&mut self){
+    fn generate_random_animal(&mut self) {
         let array: [&str; 10] = ["penguin", "elephant", "bat", "crocodile", "deer", "dolphin", "giraffe", "monkey", "otter", "tiger"];
         let mut rng = rand::thread_rng();
         let random_number = rng.gen_range(0..array.len());
@@ -71,6 +115,13 @@ impl GameState {
             hunger: 50
         };
         self.animals.push(animal);
+    }
+
+    fn reset_progress(&mut self) {
+        self.progress = 0;
+        if self.level < self.animals.len() as i32 {
+            self.level = self.animals.len() as i32;
+        }
     }
 
     pub fn feed_animal(&mut self, id: usize) {
@@ -89,12 +140,14 @@ mod tests {
     fn get_game_state(hunger: i32) -> GameState {
         GameState{
             player: "niels".to_string(),
-            score: 40,
-            animals: get_animal(hunger)
+            level: 1,
+            progress: 10000,
+            animals: get_animals(hunger),
+            dead_animals: vec![]
         }
     }
 
-    fn get_animal(hunger: i32) -> Vec<Animal> {
+    fn get_animals(hunger: i32) -> Vec<Animal> {
         vec! [Animal {
             id: 0,
             species: "tiger".to_string(),
@@ -105,7 +158,7 @@ mod tests {
 
     #[test]
     fn can_make_an_animal() {
-        let animals = get_animal(20);
+        let animals = get_animals(20);
         let animal = &animals[0];
 
         assert_eq!(animal.id, 0);
@@ -125,20 +178,20 @@ mod tests {
     }
 
     #[test]
-    fn tick_forward_does_not_decrease_hunger_below_zero() {
-        let mut game_state = get_game_state(0);
+    fn animals_die_when_they_reach_zero_hunger() {
+        let mut game_state = get_game_state(1);
 
-        let old_hunger = game_state.animals[0].hunger;
+        let starting_dead_animal_count = game_state.dead_animals.len();
         game_state.tick_forward();
-        let new_hunger = game_state.animals[0].hunger;
+        let ending_dead_animal_count = game_state.dead_animals.len();
 
-        assert_eq!(old_hunger, 0);
-        assert_eq!(new_hunger, 0);
+        assert_eq!(starting_dead_animal_count, 0);
+        assert_eq!(ending_dead_animal_count, 1);
     }
 
     #[test]
-    fn tick_forward_adds_a_new_animal_when_score_is_high_enough() {
-        let mut game_state = get_game_state(0);
+    fn tick_forward_adds_a_new_animal_when_progress_is_high_enough() {
+        let mut game_state = get_game_state(20);
 
         let starting_animal_count = game_state.animals.len();
         game_state.tick_forward();
