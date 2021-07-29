@@ -7,9 +7,10 @@ type AnimalProps = {
     id: number;
     gameState: GameState;
     setGameState(newGameState: GameState): void;
+    setInfoState(newInfoState: Animal): void;
 }
 
-export function Animal({id, gameState, setGameState}: AnimalProps) {
+export function Animal({id, gameState, setGameState, setInfoState}: AnimalProps) {
     let animal: Animal = gameState.animals[id];
 
     let animalImage = "images/" + animal.species + ".png";
@@ -28,6 +29,11 @@ export function Animal({id, gameState, setGameState}: AnimalProps) {
         } else {
             return "gray"
         }
+    }
+
+    function replaceInfoState(e) {
+        e.preventDefault();
+        setInfoState(animal);
     }
 
     async function feedAnimal(){
@@ -80,14 +86,11 @@ export function Animal({id, gameState, setGameState}: AnimalProps) {
 
     return (
         <div className="animal"
-                style={{backgroundColor: background}}>
-            <img src={animalImage} />
-            <div>
-            Name: {animal.name}
-            </div>
-            <div>
-            Hunger: {animal.hunger}
-            </div>
+                style={{backgroundColor: background}}
+                onClick={replaceInfoState}>
+            <img src={animalImage}/>
+            <div> Name: {animal.name} </div>
+            <div> Hunger: {animal.hunger} </div>
             <button className="feedButton" onClick={() => feedAnimal()}> Feed </button>
             <button className="bulkFeedButton" onClick={() => bulkFeedAnimal()}> Bulk Feed </button>
         </div>

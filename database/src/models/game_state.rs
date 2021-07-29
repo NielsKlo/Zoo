@@ -7,6 +7,7 @@ pub struct GameState {
     pub player: String,
     pub level: i32,
     pub progress: i32,
+    pub difficulty: i32,
     pub animals: Vec<Animal>,
     pub dead_animals: Vec<Animal>
 }

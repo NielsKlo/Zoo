@@ -7,17 +7,32 @@ type StartGameProps = {
 
 export function StartGame({ setGameState}: StartGameProps) {
     const [playerName, setPlayerName] = useState("");
+    const [difficulty, setDifficulty] = useState("easy");
+
+    function convertDifficulty() {
+        if (difficulty === "easy"){
+            return 1;
+        } else if(difficulty === "medium") {
+            return 5;
+        } else {
+            return 10;
+        }
+    }
 
     async function tryStartGame(e: React.FormEvent) {
         e.preventDefault();
+        let convertedDifficulty = convertDifficulty();
         try {
             const response = await fetch('/zoo/get_animals', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
-                    'Content-Type': 'text/plain'
+                    'Content-Type': 'application/json'
                 },
-                body: playerName
+                body: JSON.stringify({
+                    player: playerName,
+                    difficulty: convertedDifficulty
+                })
             });
             if(response.ok){
                 const message = await response.json();
@@ -35,6 +50,12 @@ export function StartGame({ setGameState}: StartGameProps) {
                 placeholder="Niels"
                 onChange={(e) => setPlayerName(e.target.value)}
             />
+            <select value={difficulty}
+                onChange={(e) => setDifficulty(e.target.value)}>
+                <option value="easy"> Easy </option>
+                <option value="medium"> Medium </option>
+                <option value="hard"> Hard </option>
+            </select>
             <button className="startGameButton" type="submit">
                 Play!
             </button>

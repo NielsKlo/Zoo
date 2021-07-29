@@ -1,10 +1,13 @@
 use actix_web::{HttpServer, HttpResponse, App, Responder, get, post};
+use actix_web::web::Json;
 use actix_session::{CookieSession, Session};
 use std::io;
 use database;
 use database::models::game_state::GameState as DBGameState;
 use domain::GameState as DomainGameState;
+pub mod option_data;
 use serde_json::from_str;
+use crate::option_data::OptionData;
 
 extern crate serde_json;
 
@@ -20,6 +23,7 @@ async fn main() -> io::Result<()>{
             .service(tick_forward)
             .service(feed_animal)
             .service(bulk_feed_animal)
+            .service(reset_game)
     })
         .bind("127.0.0.1:8080")?
         .run()
@@ -27,11 +31,11 @@ async fn main() -> io::Result<()>{
 }
 
 #[post("/get_animals")]
-async fn get_animals(session: Session, name: String) -> impl Responder {
+async fn get_animals(session: Session, options: Json<OptionData>) -> impl Responder {
     println!("API call for get_animals.");
-    let message = database::get_animals(name);
-    let deserialized: DomainGameState = serde_json::from_str(&message).unwrap();
-    session.set("game", deserialized).expect("Couldn't store game state in session");
+    let game_state = database::get_animals(options.player.clone(), options.difficulty);
+    let message = serde_json::to_string(&game_state).unwrap();
+    session.set("game", game_state).expect("Couldn't store game state in session");
 
     HttpResponse::Ok().content_type("application/json").body(message)
 }
@@ -76,5 +80,20 @@ async fn bulk_feed_animal(session: Session, id: String) -> impl Responder {
 
     let message = serde_json::to_string(&game_state).unwrap();
     HttpResponse::Ok().content_type("application/json").body(message)
-
 }
+
+#[get("/reset_game")]
+async fn reset_game(session: Session) -> impl Responder {
+    println!("API call for reset_game.");
+    let game_state = session.get::<DBGameState>("game").unwrap().unwrap();
+    let name = game_state.player;
+    let game_state = database::reset_game(name);
+    let message = serde_json::to_string(&game_state).unwrap();
+    session.set("game", game_state).expect("Couldn't store game state in session");
+
+    HttpResponse::Ok().content_type("application/json").body(message)
+}
+
+
+
+

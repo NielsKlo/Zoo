@@ -1,13 +1,32 @@
-.animalClass{
+.animalClass {
     display: flex;
     flex-wrap: wrap;
     justify-content: start;
     background-color: #3ecded;
 }
 
-.graveyard{
+.graveyard {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     background-color: black;
+}
+
+
+.playContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.infoBox {
+    display: flex;
+    justify-content: center;
+}
+
+.saveButton {
+    max-width: 50px;
+}
+
+.resetButton {
+    max-width: 50px;
 }

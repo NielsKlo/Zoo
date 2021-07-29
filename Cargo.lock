@@ -365,6 +365,7 @@ dependencies = [
  "database",
  "domain",
  "serde",
+ "serde_derive",
  "serde_json",
 ]
 

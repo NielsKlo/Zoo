@@ -2,13 +2,15 @@ import React, { useState,  useEffect } from "react";
 import type { GameState } from "../gameState";
 
 type TimerProps = {
+    difficulty: number;
     setGameState(newGameState: GameState): void;
 }
 
-export function Timer({setGameState}: TimerProps) {
+export function Timer({difficulty, setGameState}: TimerProps) {
+    let tickRate = 2000 / difficulty;
 
     useEffect(() => {
-        var timer = setInterval(tickForward, 200);
+        var timer = setInterval(tickForward, tickRate);
         return () => {
             clearInterval(timer);
         }

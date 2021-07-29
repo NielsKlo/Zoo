@@ -16,16 +16,19 @@ fn get_collection() -> Collection<GameState> {
     database.collection_with_type::<GameState>("Animals")
 }
 
-pub fn get_animals(name: String) -> String {
+pub fn get_animals(name: String, difficulty: i32) -> GameState {
     let collection = get_collection();
     let option = collection.find_one(doc! {"player": &name}, None)
         .expect("Couldn't search for entries in the collection.");
-    let game_state;
+    let mut game_state;
     match option {
         Some(x) => game_state = x,
-        None => game_state = get_starting_state(collection, name)
+        None => {
+            game_state = get_starting_state(collection, name);
+            game_state.difficulty = difficulty;
+        }
     };
-    serde_json::to_string(&game_state).unwrap()
+    game_state
 }
 
 fn get_starting_state(collection: Collection<GameState>, name: String) -> GameState {
@@ -42,6 +45,12 @@ pub fn save_animal(game_state: GameState) {
     collection.delete_one(doc! {"player": name} , None).expect("Couldn't delete the game state from the database");
     collection.insert_one(game_state, None)
         .expect("Couldn't insert the new game state into database.");
+}
+
+pub fn reset_game(name: String) -> GameState {
+    let collection = get_collection();
+    let game_state = get_starting_state(collection, name);
+    game_state
 }
 
 #[cfg(test)]

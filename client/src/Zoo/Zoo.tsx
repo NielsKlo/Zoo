@@ -20,8 +20,10 @@ export function Zoo() {
             </div>
     }
 
+    let difficulty = gameState.difficulty;
+
     return <div>
             <Play gameState={gameState} setGameState={setGameState} />
-            <Timer setGameState={setGameState} />
+            <Timer difficulty={difficulty} setGameState={setGameState} />
             </div>
 }
