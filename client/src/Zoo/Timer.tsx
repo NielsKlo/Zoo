@@ -8,7 +8,7 @@ type TimerProps = {
 export function Timer({setGameState}: TimerProps) {
 
     useEffect(() => {
-        var timer = setInterval(tickForward, 2000);
+        var timer = setInterval(tickForward, 200);
         return () => {
             clearInterval(timer);
         }

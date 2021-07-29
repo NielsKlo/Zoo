@@ -1,0 +1,9 @@
+img {
+    height: 70px;
+    width: 70px;
+}
+
+.deadAnimal {
+    border: 1px solid #ddd;
+    padding: 5px;
+}

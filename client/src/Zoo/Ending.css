@@ -1,11 +1,11 @@
-.animalClass{
+.survivors{
     display: flex;
     flex-wrap: wrap;
-    justify-content: start;
+    justify-content: center;
     background-color: #3ecded;
 }
 
-.graveyard{
+.fallen{
     display: flex;
     flex-wrap: wrap;
     justify-content: center;

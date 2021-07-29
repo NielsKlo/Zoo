@@ -73,7 +73,9 @@ impl GameState {
     }
 
     fn no_animals_alive(&self) -> bool {
-        self.animals.len() == 0
+        let no_living_animals = self.animals.len() == 0;
+        let below_animal_limit = (self.animals.len() + self.dead_animals.len()) < 26;
+        no_living_animals && below_animal_limit
     }
 
     fn make_progress(&mut self) {
@@ -114,7 +116,9 @@ impl GameState {
     }
 
     fn deserves_new_animal(&mut self) -> bool {
-        self.progress >= 10000
+        let enough_progress = self.progress >= 10000;
+        let below_animal_limit = (self.animals.len() + self.dead_animals.len()) < 26;
+        enough_progress && below_animal_limit
     }
 
     fn generate_random_animal(&mut self) {

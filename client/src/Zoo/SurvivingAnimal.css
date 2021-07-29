@@ -1,0 +1,9 @@
+img {
+    height: 70px;
+    width: 70px;
+}
+
+.survivor {
+    border: 1px solid #ddd;
+    padding: 5px;
+}

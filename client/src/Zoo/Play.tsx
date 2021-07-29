@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {Animal} from "./Animal";
+import {DeadAnimal} from "./DeadAnimal";
 import type { GameState } from "../gameState";
 import "./Play.css";
 
@@ -11,10 +12,18 @@ type PlayProps = {
 export function Play({ gameState, setGameState}: PlayProps) {
     const progress: number = Math.trunc(gameState.progress / 100);
     let animalIndex = 0;
+    let deadAnimalIndex = 0;
 
     function getAnimalIndex() {
+
         let oldIndex = animalIndex;
         animalIndex += 1;
+        return oldIndex;
+    }
+
+    function getDeadAnimalIndex() {
+        let oldIndex = deadAnimalIndex;
+        deadAnimalIndex += 1;
         return oldIndex;
     }
 
@@ -44,6 +53,12 @@ export function Play({ gameState, setGameState}: PlayProps) {
                 ))}
             </div>
             <button className="saveButton" onClick={() => saveAnimal()}> Save </button>
+            <div className="graveyard">
+                {
+                gameState.dead_animals.map((deadAnimal) => (
+                    <DeadAnimal id={getDeadAnimalIndex()} gameState={gameState} key={deadAnimal.id}/>
+                ))}
+            </div>
         </div>
     )
 }
