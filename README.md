@@ -26,9 +26,7 @@ This will likely take a few minutes.
 
 - Download the on-premise, community MongoDB server and install it. Use the default port (27017). 
   
-- Make a database called 'ZooDB'. 
-  
-- Make a collection in ZooDB called 'Animals'.
+- run "cargo run" in the database directory. (WIP)
 
 
 #Commands to run the program:
