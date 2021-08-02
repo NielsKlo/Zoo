@@ -4,7 +4,6 @@ use mongodb::sync::{Collection, Client};
 use mongodb::bson::doc;
 use crate::models::game_state::GameState;
 
-extern crate serde_json;
 
 fn get_collection() -> Collection<GameState> {
     let client = Client::with_uri_str(

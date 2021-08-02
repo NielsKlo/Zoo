@@ -2,7 +2,7 @@
 
 The core idea of this project was for a player to be able to feed and build up a collection of zoo animals.
 Players can feed animals and will get new animals faster if they keep their animals properly fed.
-There are three difficulty options. The game can be saved and continued from that save.
+There are three difficulty options to choose from. The game can be saved and continued from that save.
 
 #Software needed:
 
@@ -22,7 +22,7 @@ There are three difficulty options. The game can be saved and continued from tha
 
 This will likely take a few minutes.
 
-**Setting up the database**
+**Setting up the database:**
 
 - Download the on-premise, community MongoDB server and install it. Use the default port (27017). 
   
