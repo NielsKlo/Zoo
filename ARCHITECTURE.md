@@ -20,15 +20,15 @@
 - Database
 
 ```mermaid
-graph TD;
-API-->Client;
-Client-->API;
-API-->Domain;
-Domain-->API;
-API-->Database;
-Database-->API;
+graph LR;
+    Client-->API;
+    API-->Client
+    API-->Domain;
+    Domain-->API;
+    API-->Database;
+    Database-->API;
 ```
 
 # Structure
 
-Each layer has its own directory within /nklootwijk_zoo.
+Each layer has its own directory within the /nklootwijk_zoo directory.

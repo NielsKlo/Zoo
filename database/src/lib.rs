@@ -6,9 +6,8 @@ use crate::models::game_state::GameState;
 
 
 fn get_collection() -> Collection<GameState> {
-    let client = Client::with_uri_str(
-        "mongodb://localhost:27017",
-    ).expect("Couldn't find mongodb at localhost:27017");
+    let client = Client::with_uri_str("mongodb://localhost:27017")
+        .expect("Couldn't find mongodb at localhost:27017");
 
     let database = client.database("ZooDB");
 

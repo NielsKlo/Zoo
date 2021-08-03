@@ -26,12 +26,12 @@ This will likely take a few minutes.
 
 - Download the on-premise, community MongoDB server and install it. Use the default port (27017). 
   
-- run "cargo run" in the database directory. (WIP)
+- run "cargo run" in the database directory. 
 
 
 #Commands to run the program:
 
-- "cargo run" in the nklootwijk_zoo directory.
+- "cargo run" in the api directory.
 
 - "npm run start" in the client directory.
 
