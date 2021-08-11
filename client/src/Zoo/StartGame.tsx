@@ -47,7 +47,7 @@ export function StartGame({ setGameState}: StartGameProps) {
     return (
         <form onSubmit={(e) => tryStartGame(e)}>
             <input value={playerName}
-                placeholder="Niels"
+                placeholder="Player"
                 onChange={(e) => setPlayerName(e.target.value)}
             />
             <select value={difficulty}

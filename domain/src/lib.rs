@@ -22,25 +22,25 @@ pub struct Animal {
 
 impl GameState {
     pub fn tick_forward(&mut self) {
-        let animals_died = Self::age_animals(self);
+        let animals_died = self.age_animals();
 
         if animals_died {
-            Self::bury_dead_animals(self);
-            if Self::no_animals_alive(self) {
-                Self::generate_random_animal(self);
+            self.bury_dead_animals();
+            if self.no_animals_alive() {
+                self.generate_random_animal();
             }
         } else {
-            Self::make_progress(self);
+            self.make_progress();
         }
 
-        if Self::deserves_new_animal(self){
-            Self::generate_random_animal(self);
+        if self.deserves_new_animal(){
+            self.generate_random_animal();
         }
     }
 
     fn age_animals(&mut self) -> bool {
         for i in 0..self.animals.len() {
-            Self::tick_forward_hunger(self, i);
+            self.tick_forward_hunger(i);
             if self.animals[i].hunger == 0 {
                 return true;
             }
@@ -80,8 +80,8 @@ impl GameState {
     }
 
     fn make_progress(&mut self) {
-        let new_progress = Self::get_new_progress(self);
-        let multiplier = Self::get_progress_multiplier(self);
+        let new_progress = self.get_new_progress();
+        let multiplier = self.get_progress_multiplier();
         self.progress += ((new_progress as f32) * multiplier) as i32;
     }
 
@@ -133,7 +133,7 @@ impl GameState {
             hunger: 50
         };
         self.animals.push(animal);
-        Self::reset_progress(self);
+        self.reset_progress();
     }
 
     fn reset_progress(&mut self) {
